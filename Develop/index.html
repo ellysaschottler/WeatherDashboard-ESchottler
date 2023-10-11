@@ -7,7 +7,22 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+<header>
+    <h1>Weather Dashboard</h1>
+</header>
 
+    <sidebar id="city-search">
+    <h2>Search for a City</h2>
+        <form> 
+            <input type ="text"> 
+            <button id="search-btn">Search</button>
+        </form>
+        <div id="city-history"></div> 
+    </sidebar>
+    <content>
+        <div id="current-day-data"></div>
+        <div id="five-day-forecast"></div>
+    </content>
     
 <script src="script.js"></script>
 </body>
