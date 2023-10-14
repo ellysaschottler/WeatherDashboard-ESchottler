@@ -18,8 +18,7 @@ var cityNameInput = document.querySelector("#city-name")
 var cityHistoryContainerEl = document.querySelector("#city-history")
 var currentWeatherContainerEl= document.querySelector("#current-day-data")
 var weatherForecastContainerEl = document.querySelector("#five-day-forecast")
-var currentWeather
-var forecastWeather
+var cityNameDispayEl = document.querySelector("#city-name-display")
 var lat
 var lon
 
@@ -32,16 +31,13 @@ function getCurrentWeather (){
         return response.json();
     })
     .then(function(data){
-        console.log(data) // gets whole data
-        console.log("weather-icon-code" +data.weather[0].icon)
-        console.log("speed" +data.wind.speed)
-        console.log("humidity"+data.main.humidity)
-        console.log("temp" + data.main.temp)
-        console.log("unix-date"+data.dt)
-        console.log("lat" +data.coord.lat)
-        console.log("lon" + data.coord.lon)
+        console.log(data)
+        console.log(data.name)
         lat = data.coord.lat
         lon = data.coord.lon
+
+        var cityNameDataEl = document.createElement("h2")
+        cityNameDataEl.textContent = data.name
 
         var currentWeathertListEl = document.createElement("ul")
         var dateEl = document.createElement("li");
@@ -57,6 +53,7 @@ function getCurrentWeather (){
         var humidityEl = document.createElement("li")
         humidityEl.textContent = "Humidity: "+data.main.humidity + "%"
         
+        cityNameDispayEl.appendChild(cityNameDataEl)
         currentWeathertListEl.appendChild(dateEl)
         currentWeathertListEl.appendChild(iconListEl)
         currentWeathertListEl.appendChild(tempEl)
@@ -76,18 +73,7 @@ function getForecastWeather() {
             return response.json();
         })
         .then(function(data){
-            console.log("weather-icon-code" +data.list[0].weather[0].icon)
-            console.log("speed" +data.list[0].wind.speed)
-            console.log("humidity"+data.list[0].main.humidity)
-            console.log("temp" + data.list[0].main.temp)  
-            console.log("unix-date"+data.list[0].dt)
-            // replace 8 with i for looping when ready
-            console.log("weather-icon-code2" +data.list[8].weather[0].icon)
-            console.log("speed2" +data.list[8].wind.speed)
-            console.log("humidity2"+data.list[8].main.humidity)
-            console.log("temp2" + data.list[8].main.temp)  
-            console.log("unix-date2"+data.list[8].dt)
-            
+
             var weatherForecastListEl = document.createElement("ul")
             var dateEl = document.createElement("li");
             dateEl.textContent = dayjs.unix(data.list[0].dt).format("MM/DD/YYYY")
@@ -139,3 +125,37 @@ function renderCityHistory() {
 // On click need to update cityName to the name clicked
 
 getCurrentWeather()
+
+
+
+
+
+
+
+
+
+
+
+
+//Query 1 data getters:
+// console.log(data) // gets whole data
+// console.log("weather-icon-code" +data.weather[0].icon)
+// console.log("speed" +data.wind.speed)
+// console.log("humidity"+data.main.humidity)
+// console.log("temp" + data.main.temp)
+// console.log("unix-date"+data.dt)
+// console.log("lat" +data.coord.lat)
+// console.log("lon" + data.coord.lon)
+
+// Query 2 data getters:
+// console.log("weather-icon-code" +data.list[0].weather[0].icon)
+// console.log("speed" +data.list[0].wind.speed)
+// console.log("humidity"+data.list[0].main.humidity)
+// console.log("temp" + data.list[0].main.temp)  
+// console.log("unix-date"+data.list[0].dt)
+// // replace 8 with i for looping when ready
+// console.log("weather-icon-code2" +data.list[8].weather[0].icon)
+// console.log("speed2" +data.list[8].wind.speed)
+// console.log("humidity2"+data.list[8].main.humidity)
+// console.log("temp2" + data.list[8].main.temp)  
+// console.log("unix-date2"+data.list[8].dt)
