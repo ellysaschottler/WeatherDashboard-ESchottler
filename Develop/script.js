@@ -13,12 +13,13 @@
 
 var cityHistory = [];
 var APIKey = "af36b85d3236ca25f03ced5a81cc6ee6";
-var cityName= "Rochester" // for example data - set to cityNameInput when ready
+var cityName
 var cityNameInput = document.querySelector("#city-name")
 var cityHistoryContainerEl = document.querySelector("#city-history")
 var currentWeatherContainerEl= document.querySelector("#current-day-data")
 var weatherForecastContainerEl = document.querySelector("#five-day-forecast")
 var cityNameDispayEl = document.querySelector("#city-name-display")
+var searchForm = document.querySelector("#search-form")
 var lat
 var lon
 
@@ -38,31 +39,9 @@ function getCurrentWeather (){
 
         var cityNameDataEl = document.createElement("h2")
         cityNameDataEl.textContent = data.name
-
-        var currentWeathertListEl = document.createElement("ul")
-        var dateEl = document.createElement("li");
-        dateEl.textContent = dayjs.unix(data.dt).format("MM/DD/YYYY")
-        var iconListEl = document.createElement("li")
-        var iconEl = document.createElement("img");
-        iconEl.src = "http://openweathermap.org/img/w/"+data.weather[0].icon+".png"
-        iconListEl.appendChild(iconEl)
-        var tempEl = document.createElement("li")
-        tempEl.textContent = "Temp: " +data.main.temp +"°F"
-        var windEl = document.createElement("li")
-        windEl.textContent = "Wind: "+ data.wind.speed +" MPH"
-        var humidityEl = document.createElement("li")
-        humidityEl.textContent = "Humidity: "+data.main.humidity + "%"
-        
         cityNameDispayEl.appendChild(cityNameDataEl)
-        currentWeathertListEl.appendChild(dateEl)
-        currentWeathertListEl.appendChild(iconListEl)
-        currentWeathertListEl.appendChild(tempEl)
-        currentWeathertListEl.appendChild(windEl)
-        currentWeathertListEl.appendChild(humidityEl)
-        currentWeatherContainerEl.appendChild(currentWeathertListEl)
-
+        renderWeatherBlock(data)
         getForecastWeather()
-    return
     })
 }
     
@@ -73,33 +52,46 @@ function getForecastWeather() {
             return response.json();
         })
         .then(function(data){
-
-            var weatherForecastListEl = document.createElement("ul")
-            var dateEl = document.createElement("li");
-            dateEl.textContent = dayjs.unix(data.list[0].dt).format("MM/DD/YYYY")
-            var iconListEl = document.createElement("li")
-            var iconEl = document.createElement("img");
-            iconEl.src = "http://openweathermap.org/img/w/"+data.list[0].weather[0].icon+".png"
-            iconListEl.appendChild(iconEl)
-            var tempEl = document.createElement("li")
-            tempEl.textContent = "Temp: " +data.list[0].main.temp +"°F"
-            var windEl = document.createElement("li")
-            windEl.textContent = "Wind: "+ data.list[0].wind.speed +" MPH"
-            var humidityEl = document.createElement("li")
-            humidityEl.textContent = "Humidity: "+data.list[0].main.humidity + "%"
-            
-            weatherForecastListEl.appendChild(dateEl)
-            weatherForecastListEl.appendChild(iconListEl)
-            weatherForecastListEl.appendChild(tempEl)
-            weatherForecastListEl.appendChild(windEl)
-            weatherForecastListEl.appendChild(humidityEl)
-            weatherForecastContainerEl.appendChild(weatherForecastListEl)
-        return
+            for (var i=7; i <=39 && data.list.length >=i; i+=8){
+            renderWeatherBlock(data.list[i])
+            }
         })
 }
 
-// set city to local storage 
-localStorage.setItem("city", JSON.stringify(cityNameInput));
+//Append weather data to the html
+function renderWeatherBlock(weatherData){
+    var weatherForecastListEl = document.createElement("ul")
+    var dateEl = document.createElement("li");
+    dateEl.textContent = dayjs.unix(weatherData.dt).format("MM/DD/YYYY")
+    var iconListEl = document.createElement("li")
+    var iconEl = document.createElement("img");
+    iconEl.src = "http://openweathermap.org/img/w/"+weatherData.weather[0].icon+".png"
+    iconListEl.appendChild(iconEl)
+    var tempEl = document.createElement("li")
+    tempEl.textContent = "Temp: " +weatherData.main.temp +"°F"
+    var windEl = document.createElement("li")
+    windEl.textContent = "Wind: "+ weatherData.wind.speed +" MPH"
+    var humidityEl = document.createElement("li")
+    humidityEl.textContent = "Humidity: "+weatherData.main.humidity + "%"
+    
+    weatherForecastListEl.appendChild(dateEl)
+    weatherForecastListEl.appendChild(iconListEl)
+    weatherForecastListEl.appendChild(tempEl)
+    weatherForecastListEl.appendChild(windEl)
+    weatherForecastListEl.appendChild(humidityEl)
+    weatherForecastContainerEl.appendChild(weatherForecastListEl)
+}
+
+// Set the City name and store it
+searchForm.addEventListener("submit", function (e){
+    e.preventDefault()
+    cityName = cityNameInput.value  
+    localStorage.setItem("city", JSON.stringify(cityName));
+    getCurrentWeather()
+
+})
+
+
 
 //After storing, set to city history list
 function init() {
@@ -118,13 +110,19 @@ function renderCityHistory() {
         var historyListItem = cityHistory[i];
         var li = document.createElement("li");
         li.textContent = historyListItem;
-        li.appendChild(cityHistoryContainerEl)
+        cityHistoryContainerEl.appendChild(li)
     }
 }
 
 // On click need to update cityName to the name clicked
+cityHistoryContainerEl.addEventListener("click", function(event) {
+    console.log(event.target)
+// need to get the city name clicked to go to cityName 
 
-getCurrentWeather()
+
+} )
+
+
 
 
 
