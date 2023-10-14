@@ -20,8 +20,8 @@ var currentWeatherContainerEl= document.querySelector("#current-day-data")
 var weatherForecastContainerEl = document.querySelector("#five-day-forecast")
 var currentWeather
 var forecastWeather
-var lat = 43.1548 // for example data, set to data.coord.lat when ready
-var lon = -77.6156 // for example data, set to data.coord.lon when ready
+var lat
+var lon
 
 
 function getCurrentWeather (){
@@ -40,6 +40,32 @@ function getCurrentWeather (){
         console.log("unix-date"+data.dt)
         console.log("lat" +data.coord.lat)
         console.log("lon" + data.coord.lon)
+        lat = data.coord.lat
+        lon = data.coord.lon
+
+        var currentWeathertListEl = document.createElement("ul")
+        var dateEl = document.createElement("li");
+        dateEl.textContent = dayjs.unix(data.dt).format("MM/DD/YYYY")
+        var iconListEl = document.createElement("li")
+        var iconEl = document.createElement("img");
+        iconEl.src = "http://openweathermap.org/img/w/"+data.weather[0].icon+".png"
+        iconListEl.appendChild(iconEl)
+        var tempEl = document.createElement("li")
+        tempEl.textContent = "Temp: " +data.main.temp +"°F"
+        var windEl = document.createElement("li")
+        windEl.textContent = "Wind: "+ data.wind.speed +" MPH"
+        var humidityEl = document.createElement("li")
+        humidityEl.textContent = "Humidity: "+data.main.humidity + "%"
+        
+        currentWeathertListEl.appendChild(dateEl)
+        currentWeathertListEl.appendChild(iconListEl)
+        currentWeathertListEl.appendChild(tempEl)
+        currentWeathertListEl.appendChild(windEl)
+        currentWeathertListEl.appendChild(humidityEl)
+        currentWeatherContainerEl.appendChild(currentWeathertListEl)
+
+        getForecastWeather()
+    return
     })
 }
     
@@ -62,6 +88,7 @@ function getForecastWeather() {
             console.log("temp2" + data.list[8].main.temp)  
             console.log("unix-date2"+data.list[8].dt)
             
+            var weatherForecastListEl = document.createElement("ul")
             var dateEl = document.createElement("li");
             dateEl.textContent = dayjs.unix(data.list[0].dt).format("MM/DD/YYYY")
             var iconListEl = document.createElement("li")
@@ -71,15 +98,16 @@ function getForecastWeather() {
             var tempEl = document.createElement("li")
             tempEl.textContent = "Temp: " +data.list[0].main.temp +"°F"
             var windEl = document.createElement("li")
-            windEl.textContent = "Wind: "+ data.list[0].wind.speed +"mph"
+            windEl.textContent = "Wind: "+ data.list[0].wind.speed +" MPH"
             var humidityEl = document.createElement("li")
             humidityEl.textContent = "Humidity: "+data.list[0].main.humidity + "%"
             
-            weatherForecastContainerEl.appendChild(dateEl)
-            weatherForecastContainerEl.appendChild(iconListEl)
-            weatherForecastContainerEl.appendChild(tempEl)
-            weatherForecastContainerEl.appendChild(windEl)
-            weatherForecastContainerEl.appendChild(humidityEl)
+            weatherForecastListEl.appendChild(dateEl)
+            weatherForecastListEl.appendChild(iconListEl)
+            weatherForecastListEl.appendChild(tempEl)
+            weatherForecastListEl.appendChild(windEl)
+            weatherForecastListEl.appendChild(humidityEl)
+            weatherForecastContainerEl.appendChild(weatherForecastListEl)
         return
         })
 }
@@ -111,4 +139,3 @@ function renderCityHistory() {
 // On click need to update cityName to the name clicked
 
 getCurrentWeather()
-getForecastWeather()
