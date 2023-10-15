@@ -122,7 +122,11 @@ function renderCityHistory() {
 
 // On click need to update cityName to the name clicked
 cityHistoryContainerEl.addEventListener("click", function(event) {
-    console.log(event.target)
+   cityName =event.target.textContent
+   currentWeatherContainerEl.innerHTML=""
+   weatherForecastContainerEl.innerHTML = ""
+   getCurrentWeather()
+   renderCityHistory ()
 // need to get the city name clicked to go to cityName 
 
 
