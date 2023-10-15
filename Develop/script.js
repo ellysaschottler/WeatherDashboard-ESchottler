@@ -1,8 +1,7 @@
 // Bootcamp-key af36b85d3236ca25f03ced5a81cc6ee6
 // dt looks like the unix date - use dayjs to convert to readable date
 // var date = dayjs.unix(enterVariableForDate).format("MM/DD/YYYY")
-// note: the for loop getting all 5 days of weather forecast will have to increment i by 8 
-//- the weather forecast is updated every 3 hours and we just need daily.
+
 // it will also have to start on i=7, i=7 is about 24hrs past current time
 //(for (var i=7; i <=39; i+=8)    // Our weather forecast is given in 3 hour increments, we want one forecast each for 5 days, so the index will increment by 8 (24))
 // queryURL2 full address for example: https://api.openweathermap.org/data/2.5/forecast?lat=43.1548&lon=-77.6156&appid=af36b85d3236ca25f03ced5a81cc6ee6&units=imperial
@@ -11,7 +10,7 @@
 
 
 
-var cityHistory = [];
+var cityHistoryArray = [];
 var APIKey = "af36b85d3236ca25f03ced5a81cc6ee6";
 var cityName
 var cityNameInput = document.querySelector("#city-name")
@@ -44,7 +43,9 @@ function getCurrentWeather (){
         getForecastWeather()
     })
 }
-    
+ 
+// Get the weather forecast data (note: the for loop getting all 5 days of weather forecast increments i by 8 
+// since the weather forecast is updated every 3 hours and we just need daily)
 function getForecastWeather() {
     var queryURL2 ="http://api.openweathermap.org/data/2.5/forecast?lat=" +lat + "&lon=" +lon + "&appid=" + APIKey + "&units=imperial";
         fetch(queryURL2).then (function(response){
@@ -82,12 +83,17 @@ function renderWeatherBlock(weatherData, weatherContainer){
     weatherContainer.appendChild(weatherForecastListEl)
 }
 
-// Set the City name and store it
+// Set the City name and store it and add it to the city history 
 searchForm.addEventListener("submit", function (e){
     e.preventDefault()
     cityName = cityNameInput.value  
+    cityHistoryArray.push(cityName)
     localStorage.setItem("city", JSON.stringify(cityName));
+    cityNameInput.value = ""
+    currentWeatherContainerEl.innerHTML=""
+    weatherForecastContainerEl.innerHTML = ""
     getCurrentWeather()
+    renderCityHistory ()
 
 })
 
@@ -98,19 +104,19 @@ function init() {
     var storedCityNames = JSON.parse(localStorage.getItem("city"))
 
     if (storedCityNames != null) {
-        cityHistory = storedCityNames
+        cityHistoryArray = storedCityNames
     }
-    renderCityHistory();
 }
 
 // Renders all the stored City Names that have been entered
 function renderCityHistory() {
     cityNameInput.innerHTML=""; // clears city name after it is searched for
-    for (var i = 0; i < cityHistory.length; i++) {
-        var historyListItem = cityHistory[i];
-        var li = document.createElement("li");
-        li.textContent = historyListItem;
-        cityHistoryContainerEl.appendChild(li)
+    cityNameDispayEl.innerHTML="";
+        for (var i = 0; i < cityHistoryArray.length; i++) {
+            var historyListItem = cityHistoryArray[i];
+            var li = document.createElement("li");
+            li.textContent = historyListItem;
+            cityHistoryContainerEl.appendChild(li)
     }
 }
 
