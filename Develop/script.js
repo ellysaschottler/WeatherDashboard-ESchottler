@@ -40,7 +40,7 @@ function getCurrentWeather (){
         var cityNameDataEl = document.createElement("h2")
         cityNameDataEl.textContent = data.name
         cityNameDispayEl.appendChild(cityNameDataEl)
-        renderWeatherBlock(data)
+        renderWeatherBlock(data, currentWeatherContainerEl)
         getForecastWeather()
     })
 }
@@ -53,13 +53,13 @@ function getForecastWeather() {
         })
         .then(function(data){
             for (var i=7; i <=39 && data.list.length >=i; i+=8){
-            renderWeatherBlock(data.list[i])
+            renderWeatherBlock(data.list[i], weatherForecastContainerEl)
             }
         })
 }
 
 //Append weather data to the html
-function renderWeatherBlock(weatherData){
+function renderWeatherBlock(weatherData, weatherContainer){
     var weatherForecastListEl = document.createElement("ul")
     var dateEl = document.createElement("li");
     dateEl.textContent = dayjs.unix(weatherData.dt).format("MM/DD/YYYY")
@@ -79,7 +79,7 @@ function renderWeatherBlock(weatherData){
     weatherForecastListEl.appendChild(tempEl)
     weatherForecastListEl.appendChild(windEl)
     weatherForecastListEl.appendChild(humidityEl)
-    weatherForecastContainerEl.appendChild(weatherForecastListEl)
+    weatherContainer.appendChild(weatherForecastListEl)
 }
 
 // Set the City name and store it
