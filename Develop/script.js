@@ -90,7 +90,16 @@ searchForm.addEventListener("submit", function (e){
 })
 
 
-// Renders all the stored City Names that have been entered, and clears fields for new data
+//After storing, set to city history list
+function init() {
+    var storedCityNames = JSON.parse(localStorage.getItem("city"))
+
+    if (storedCityNames != null) {
+        cityHistoryArray = storedCityNames
+    }
+}
+
+// Renders all the stored City Names that have been entered, and clears
 function renderCityHistory() {
     cityNameInput.innerHTML=""; 
     cityNameDispayEl.innerHTML="";
