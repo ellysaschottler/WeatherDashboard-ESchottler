@@ -33,7 +33,7 @@ function getCurrentWeather (){
 // Get the weather forecast data (note: the for loop getting all 5 days of weather forecast increments i by 8 
 // since the weather forecast is updated every 3 hours and we just need daily)
 function getForecastWeather() {
-    var queryURL2 ="http://api.openweathermap.org/data/2.5/forecast?lat=" +lat + "&lon=" +lon + "&appid=" + APIKey + "&units=imperial";
+    var queryURL2 ="https://api.openweathermap.org/data/2.5/forecast?lat=" +lat + "&lon=" +lon + "&appid=" + APIKey + "&units=imperial";
         fetch(queryURL2).then (function(response){
             return response.json();
         })
