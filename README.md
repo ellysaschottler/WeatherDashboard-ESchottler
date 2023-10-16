@@ -11,7 +11,7 @@ This is a weather dashboard to find the current weather conditions and the 5 day
 N/A
 
 ## Usage
-View this webiste at :  https://ellysaschottler.github.io/WeatherDashboard-ESchottler
+View this webiste at :  https://ellysaschottler.github.io/WeatherDashboard-ESchottler/Develop/
 
 Screenshot of my work: ![Screenshot](/images/weather-dashboard.png)
 
