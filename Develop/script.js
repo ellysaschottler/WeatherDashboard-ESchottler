@@ -85,6 +85,9 @@ function renderWeatherBlock(weatherData, weatherContainer){
 // Set the City name and store it and add it to the city history display
 searchForm.addEventListener("submit", function (e){
     e.preventDefault()
+    if (cityNameInput.value == ""){
+        return
+    }
     cityName = cityNameInput.value  
     cityHistoryArray.push(cityName)
     localStorage.setItem("city", JSON.stringify(cityName));
@@ -110,6 +113,7 @@ function init() {
 function renderCityHistory() {
     cityNameInput.innerHTML=""; // clears city name after it is searched for
     cityNameDispayEl.innerHTML="";
+    cityHistoryContainerEl.innerHTML="";
         for (var i = 0; i < cityHistoryArray.length; i++) {
             var historyListItem = cityHistoryArray[i];
             var button = document.createElement("button");
