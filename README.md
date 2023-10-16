@@ -13,7 +13,7 @@ N/A
 ## Usage
 View this webiste at :  https://ellysaschottler.github.io/WeatherDashboard-ESchottler/Develop/
 
-Screenshot of my work: ![Screenshot](/images/weather-dashboard.png)
+Screenshot of my work: ![Screenshot](./images/weather-dashboard.png)
 
 ## Credits
 
