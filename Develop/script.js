@@ -16,12 +16,9 @@ function getCurrentWeather (){
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + APIKey + "&units=imperial";
 
     fetch(queryURL).then (function(response){
-        console.log(response.ok)
         return response.json();
     })
     .then(function(data){
-        console.log(data)
-        console.log(data.name)
         lat = data.coord.lat
         lon = data.coord.lon
 
@@ -38,7 +35,6 @@ function getCurrentWeather (){
 function getForecastWeather() {
     var queryURL2 ="http://api.openweathermap.org/data/2.5/forecast?lat=" +lat + "&lon=" +lon + "&appid=" + APIKey + "&units=imperial";
         fetch(queryURL2).then (function(response){
-            console.log(response.ok)
             return response.json();
         })
         .then(function(data){
@@ -88,16 +84,6 @@ searchForm.addEventListener("submit", function (e){
     renderCityHistory ()
 
 })
-
-
-//After storing, set to city history list
-function init() {
-    var storedCityNames = JSON.parse(localStorage.getItem("city"))
-
-    if (storedCityNames != null) {
-        cityHistoryArray = storedCityNames
-    }
-}
 
 // Renders all the stored City Names that have been entered, and clears
 function renderCityHistory() {
