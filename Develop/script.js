@@ -9,7 +9,6 @@
 // http://openweathermap.org/img/w/10d.png // is the url of the icon images - just update the "10d" to the correct code
 
 
-
 var cityHistoryArray = [];
 var APIKey = "af36b85d3236ca25f03ced5a81cc6ee6";
 var cityName
@@ -83,7 +82,7 @@ function renderWeatherBlock(weatherData, weatherContainer){
     weatherContainer.appendChild(weatherForecastListEl)
 }
 
-// Set the City name and store it and add it to the city history 
+// Set the City name and store it and add it to the city history display
 searchForm.addEventListener("submit", function (e){
     e.preventDefault()
     cityName = cityNameInput.value  
@@ -96,7 +95,6 @@ searchForm.addEventListener("submit", function (e){
     renderCityHistory ()
 
 })
-
 
 
 //After storing, set to city history list
@@ -114,9 +112,10 @@ function renderCityHistory() {
     cityNameDispayEl.innerHTML="";
         for (var i = 0; i < cityHistoryArray.length; i++) {
             var historyListItem = cityHistoryArray[i];
-            var li = document.createElement("li");
-            li.textContent = historyListItem;
-            cityHistoryContainerEl.appendChild(li)
+            var button = document.createElement("button");
+            button.textContent = historyListItem;
+            button.setAttribute("class","btn btn-secondary")
+            cityHistoryContainerEl.appendChild(button)
     }
 }
 
@@ -127,9 +126,6 @@ cityHistoryContainerEl.addEventListener("click", function(event) {
    weatherForecastContainerEl.innerHTML = ""
    getCurrentWeather()
    renderCityHistory ()
-// need to get the city name clicked to go to cityName 
-
-
 } )
 
 
