@@ -40,6 +40,7 @@ function getForecastWeather() {
         .then(function(data){
             for (var i=7; i <=39 && data.list.length >=i; i+=8){
             renderWeatherBlock(data.list[i], weatherForecastContainerEl)
+            console.log(data)
             }
         })
 }
@@ -59,12 +60,15 @@ function renderWeatherBlock(weatherData, weatherContainer){
     windEl.textContent = "Wind: "+ weatherData.wind.speed +" MPH"
     var humidityEl = document.createElement("li")
     humidityEl.textContent = "Humidity: "+weatherData.main.humidity + "%"
+    var weatherDescriptionEl = document.createElement("li")
+    weatherDescriptionEl.textContent = "description:" +weatherData.weather[0].main
     
     weatherForecastListEl.appendChild(dateEl)
     weatherForecastListEl.appendChild(iconListEl)
     weatherForecastListEl.appendChild(tempEl)
     weatherForecastListEl.appendChild(windEl)
     weatherForecastListEl.appendChild(humidityEl)
+    weatherForecastListEl.appendChild(weatherDescriptionEl)
     weatherContainer.appendChild(weatherForecastListEl)
 }
 
@@ -76,7 +80,7 @@ searchForm.addEventListener("submit", function (e){
     }
     cityName = cityNameInput.value  
     cityHistoryArray.push(cityName)
-    localStorage.setItem("city", JSON.stringify(cityName));
+    localStorage.setItem("cityHistory", JSON.stringify(cityHistoryArray));
     cityNameInput.value = ""
     currentWeatherContainerEl.innerHTML=""
     weatherForecastContainerEl.innerHTML = ""
@@ -99,6 +103,7 @@ function renderCityHistory() {
     }
 }
 
+
 // On click need to update cityName to the name clicked
 cityHistoryContainerEl.addEventListener("click", function(event) {
    cityName =event.target.textContent
@@ -107,3 +112,12 @@ cityHistoryContainerEl.addEventListener("click", function(event) {
    getCurrentWeather()
    renderCityHistory ()
 } )
+
+function init () {
+    var storedCityNames = JSON.parse(localStorage.getItem("cityHistory"))
+    if (storedCityNames != null) {
+       cityHistoryArray = storedCityNames
+    }
+    renderCityHistory()
+}
+init()
